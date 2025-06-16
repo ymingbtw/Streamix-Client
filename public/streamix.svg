@@ -1,0 +1,20 @@
+<svg viewBox="0 0 100 100" width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF004F" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#8A2BE2" stop-opacity="1"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Larger circle to reduce empty space -->
+  <circle cx="50" cy="50" r="40" stroke="url(#logoGradient)" stroke-width="5" fill="none" filter="url(#glow)" />
+  <!-- Adjusted lines to match the larger circle -->
+  <line x1="30" y1="30" x2="70" y2="70" stroke="url(#logoGradient)" stroke-width="3"/>
+  <line x1="70" y1="30" x2="30" y2="70" stroke="url(#logoGradient)" stroke-width="3"/>
+</svg>
