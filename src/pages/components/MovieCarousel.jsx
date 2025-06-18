@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import axios from "axios";
 import PaginationDot from "./PaginationDot";
+import { useUserContext } from "../../contexts/UserProvider";
 
 const MovieCarousel = ({ genre, setOpenId, setOpenInfo }) => {
   const containerRef = useRef(null);
@@ -10,6 +11,7 @@ const MovieCarousel = ({ genre, setOpenId, setOpenInfo }) => {
   const [total, setTotal] = useState(1);
   const [perPage, setPerpage] = useState(2);
   const [translateX, setTranslateX] = useState(0);
+  const { token } = useUserContext();
   const carouselRef = useRef(null);
 
   function onPageChange(page) {
@@ -25,8 +27,16 @@ const MovieCarousel = ({ genre, setOpenId, setOpenInfo }) => {
   useEffect(() => {
     if (!genre) return;
     axios
-      .get(`http://45.149.206.238:80/api/movies?genre=${genre}`)
-      .then((res) => setMovies(res.data.movies));
+      .get(`http://ecnet.website/api/movies?genre=${genre}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (!res.data.isAuthorized) return;
+        setMovies(res.data.movies);
+      });
   }, [genre]);
   useEffect(() => {
     if (movies.length % perPage === 0) {

@@ -22,7 +22,7 @@ export default function ProfileMenu() {
   }, []);
   async function onLogout() {
     const res = await axios.post(
-      "http://45.149.206.238:80/api/signout",
+      "http://ecnet.website/api/signout",
       {
         token,
       },

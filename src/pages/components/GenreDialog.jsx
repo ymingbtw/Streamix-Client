@@ -1,15 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { useUserContext } from "../../contexts/UserProvider";
 
 export default function GenreDialog({ genre, setGenre }) {
   const [genres, setGenres] = useState([]);
   const [selection, setSelection] = useState(false);
+  const { token } = useUserContext();
   const dropdownRef = useRef(null);
 
   useEffect(() => {
     axios
-      .get("http://45.149.206.238:80/api/genres/main")
-      .then((res) => setGenres(res.data))
+      .get("http://ecnet.website/api/genres/main", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (!res.data.isAuthorized) return;
+        setGenres(res.data);
+      })
       .catch((err) => console.error("Error fetching genres:", err));
   }, []);
 

@@ -4,6 +4,7 @@ import "./App.css";
 import ProtectedRoute from "./pages/components/ProtectedRoute";
 import Navbar from "./pages/components/Navbar.jsx";
 import { AliveScope } from "react-activation";
+import { AnimatePresence } from "framer-motion";
 
 const Register = React.lazy(() => import("./pages/Register"));
 const Signin = React.lazy(() => import("./pages/Signin"));
@@ -21,45 +22,47 @@ export default function App() {
     <BrowserRouter>
       <AliveScope>
         <Suspense fallback={null}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Navbar />
-                  <HomeWrapper />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/browse"
-              element={
-                <ProtectedRoute>
-                  <Navbar />
-                  <BrowseWrapper />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/watch/:id"
-              element={
-                <ProtectedRoute>
-                  <Watch />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/register" element={<Register />} />
-            <Route path="/signin" element={<Signin />} />
-            <Route path="/dashboard/m" element={<MovieDashboard />} />
-          </Routes>
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Navbar />
+                    <HomeWrapper />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/browse"
+                element={
+                  <ProtectedRoute>
+                    <Navbar />
+                    <BrowseWrapper />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/watch/:id"
+                element={
+                  <ProtectedRoute>
+                    <Watch />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/register" element={<Register />} />
+              <Route path="/signin" element={<Signin />} />
+              <Route path="/dashboard/m" element={<MovieDashboard />} />
+            </Routes>
+          </AnimatePresence>
         </Suspense>
       </AliveScope>
     </BrowserRouter>

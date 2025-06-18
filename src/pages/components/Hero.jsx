@@ -3,17 +3,25 @@ import { useEffect, useState } from "react";
 import { Play } from "lucide-react";
 import MovieInfo from "./MovieInfo";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../../contexts/UserProvider";
 
 export default function Hero() {
   const [loading, setLoading] = useState(true);
   const [movie, setMovies] = useState({});
   const [openInfo, setOpenInfo] = useState(false);
+  const { token } = useUserContext();
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchHero() {
-      const res = await axios("http://45.149.206.238:80/api/movies/hero");
-      setMovies(res.data);
+      const res = await axios("http://ecnet.website/api/movies/hero", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
       setLoading(false);
+      if (!res.data.isAuthorized) return;
+      setMovies(res.data);
     }
     fetchHero();
   }, []);

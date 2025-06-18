@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import GenreDialog from "./components/GenreDialog";
 import axios from "axios";
 import MovieInfo from "./components/MovieInfo";
+import { motion } from "framer-motion";
+import { useUserContext } from "../contexts/UserProvider";
 
 export default function Browse() {
   const [movies, setMovies] = useState([]);
@@ -11,6 +13,7 @@ export default function Browse() {
   const [genre, setGenre] = useState("");
   const [openId, setOpenId] = useState(null);
   const [openInfo, setOpenInfo] = useState(false);
+  const { token } = useUserContext();
   const lastMovie = useRef(null);
 
   useEffect(() => {
@@ -22,13 +25,20 @@ export default function Browse() {
           setLoading(true);
           axios
             .get(
-              `http://45.149.206.238:80/api/movies?part=${nextPage}&genre=${genre}`
+              `http://ecnet.website/api/movies?part=${nextPage}&genre=${genre}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+                withCredentials: true,
+              }
             )
             .then((res) => {
+              setLoading(false);
+              if (!res.data.isAuthorized) return;
               setMovies((prev) => [...prev, ...res.data.movies]);
               setCurrentPage(res.data.current_part);
               setNextPage(res.data.next_part);
-              setLoading(false);
             });
         }
       },
@@ -43,12 +53,18 @@ export default function Browse() {
     setMovies([]);
     setLoading(true);
     axios
-      .get(`http://45.149.206.238:80/api/movies?genre=${genre}`)
+      .get(`http://ecnet.website/api/movies?genre=${genre}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      })
       .then((res) => {
+        setLoading(false);
+        if (!res.data.isAuthorized) return;
         setMovies(res.data.movies);
         setCurrentPage(res.data.current_part);
         setNextPage(res.data.next_part);
-        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
@@ -66,8 +82,10 @@ export default function Browse() {
     };
   }, [openInfo]);
   return (
-    <div
-      className={`bg-[#141414] relative overflow-hidden min-h-screen select-none`}
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 1.2 } }}
+      className="bg-[#141414] relative min-h-screen select-none"
     >
       {openInfo && <MovieInfo id={openId} setOpenInfo={setOpenInfo} />}
       <div className="absolute w-screen flex flex-col gap-[1rem] overflow-hidden p-[1.5rem] left-[0] top-[clamp(2rem,5vw,6rem)]">
@@ -112,6 +130,6 @@ export default function Browse() {
           {loading && <div className="text-white">Loading...</div>}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

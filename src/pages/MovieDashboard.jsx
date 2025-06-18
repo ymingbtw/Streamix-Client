@@ -1,9 +1,11 @@
+import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import MovieForm from "./components/MovieForm";
 import axios from "axios";
 import { debounce, set } from "lodash";
 import MoviesContainer from "./components/MoviesContainer";
 import GenreSelection from "./components/GenreSelection";
+import { useUserContext } from "../contexts/UserProvider";
 
 const movie = {
   title: "",
@@ -18,6 +20,7 @@ const movie = {
 
 export default function MovieDashboard() {
   const [genres, setGenres] = useState([]);
+  const { token } = useUserContext();
   const [openNewForm, setOpenNewForm] = useState(false);
   const [openGenre, setOpenGenre] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState("");
@@ -32,10 +35,17 @@ export default function MovieDashboard() {
     setLoading(true);
     setMovies([]);
     const res = await axios.get(
-      `http://45.149.206.238:80/api/movies?genre=${selectedGenre}&title=${query}`
+      `http://ecnet.website/api/movies?genre=${selectedGenre}&title=${query}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
     );
-    setMovies(res.data.movies);
     setLoading(false);
+    if (!res.data.isAuthorized) return;
+    setMovies(res.data.movies);
     setNextPart(res.data.next_part);
   }, 300);
   useEffect(() => {
@@ -50,23 +60,42 @@ export default function MovieDashboard() {
       setLoading(true);
       setMovies([]);
       const res = await axios.get(
-        `http://45.149.206.238:80/api/movies?genre=${selectedGenre}&title=${query}`
+        `http://ecnet.website/api/movies?genre=${selectedGenre}&title=${query}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
-      setMovies(res.data.movies);
       setLoading(false);
+      if (!res.data.isAuthorized) return;
+      setMovies(res.data.movies);
       setNextPart(res.data.next_part);
     }
     queryMovies();
   }, [selectedGenre]);
   useEffect(() => {
     async function fetchGenres() {
-      const res = await axios.get("http://45.149.206.238:80/api/genres/main");
+      const res = await axios.get("http://ecnet.website/api/genres/main", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
+      if (!res.data.isAuthorized) return;
       setGenres(res.data);
     }
     async function initMovies() {
       setLoading(true);
-      const res = await axios.get(`http://45.149.206.238:80/api/movies`);
+      const res = await axios.get(`http://ecnet.website/api/movies`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
       setLoading(false);
+      if (!res.data.isAuthorized) return;
       setMovies(res.data.movies);
       setNextPart(res.data.next_part);
     }
@@ -75,7 +104,11 @@ export default function MovieDashboard() {
   }, []);
   console.log("dashboard");
   return (
-    <div className="min-h-screen bg-[#141414] relative overflow-hidden">
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 1.2 } }}
+      className="bg-[#141414] relative min-h-screen select-none"
+    >
       {openNewForm && (
         <MovieForm
           setMovieForm={setMovieForm}
@@ -137,6 +170,6 @@ export default function MovieDashboard() {
           setLoading={setLoading}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }

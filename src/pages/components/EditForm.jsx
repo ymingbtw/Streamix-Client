@@ -2,6 +2,7 @@ import axios from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import IconAdd from "./IconAdd";
 import AddSearchDialog from "./AddSearchDialog";
+import { useUserContext } from "../../contexts/UserProvider";
 
 export default function EditForm({
   setMovieForm,
@@ -10,6 +11,7 @@ export default function EditForm({
   formDialog,
   setMovie,
 }) {
+  const { token } = useUserContext();
   const detectClick = useCallback((e) => {
     if (!formDialog.current.contains(e.target)) {
       setOpenEdit(false);
@@ -134,13 +136,20 @@ export default function EditForm({
         <button
           onClick={async () => {
             const res = await axios.put(
-              "http://45.149.206.238:80/api/movies",
+              "http://ecnet.website/api/movies",
               {
                 ...movieForm,
                 genres: Object.keys(movieForm.genres),
               },
-              { headers: { "Content-Type": "application/json" } }
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+                withCredentials: true,
+              }
             );
+            if (!res.data.isAuthorized) return;
             console.log(res.data);
             if (res.data.success) {
               setMovie({ ...movieForm });

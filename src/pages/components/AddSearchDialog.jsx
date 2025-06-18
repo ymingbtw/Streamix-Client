@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { debounce } from "lodash";
+import { useUserContext } from "../../contexts/UserProvider";
 
 export default function AddSearchDialog({ movieForm, setMovieForm }) {
   const [open, setOpen] = useState(false);
@@ -8,12 +9,20 @@ export default function AddSearchDialog({ movieForm, setMovieForm }) {
   const [query, setQuery] = useState(null);
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { token } = useUserContext();
   const fetchGenres = useCallback(
     debounce(async (searchQuery) => {
       try {
         const res = await axios(
-          `http://45.149.206.238:80/api/genres/q/${searchQuery}`
+          `http://ecnet.website/api/genres/q/${searchQuery}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          }
         );
+        if (!res.data.isAuthorized) return;
         setGenres(res.data);
       } catch (err) {
         console.error("Error fetching genres:", err);

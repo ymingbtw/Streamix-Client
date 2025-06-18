@@ -3,15 +3,23 @@ import axios from "axios";
 import MovieInfoSkeleton from "./MovieInfoSkeleton";
 import { Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../../contexts/UserProvider";
 
 async function fetchMovieInfo(id, setMovie, setLoading) {
-  const res = await axios.get(`http://45.149.206.238:80/api/movies/${id}`);
+  const res = await axios.get(`http://ecnet.website/api/movies/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    withCredentials: true,
+  });
+  if (!res.data.isAuthorized) return;
   setMovie(res.data);
   setLoading(false);
 }
 
 export default function MovieInfo({ id, setOpenInfo }) {
   const [loading, setLoading] = useState(true);
+  const { token } = useUserContext();
   const [movie, setMovie] = useState({
     title: "",
     description: "",

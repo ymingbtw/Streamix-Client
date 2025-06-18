@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import AddSearchDialog from "./AddSearchDialog";
+import { useUserContext } from "../../contexts/UserProvider";
 
 export default function MovieForm({ setMovieForm, movieForm, setOpenNewForm }) {
   const formDialog = useRef(null);
+  const { token } = useUserContext();
   useEffect(() => {
     function detectClick(e) {
       if (!formDialog.current.contains(e.target)) {
@@ -129,15 +131,22 @@ export default function MovieForm({ setMovieForm, movieForm, setOpenNewForm }) {
               genres: Object.keys(movieForm.genres),
             });
             const res = await axios.post(
-              "http://45.149.206.238:80/api/movies",
+              "http://ecnet.website/api/movies",
               {
                 movieForm: {
                   ...movieForm,
                   genres: Object.keys(movieForm.genres),
                 },
               },
-              { headers: { "Content-Type": "application/json" } }
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+                withCredentials: true,
+              }
             );
+            if (!res.data.isAuthorized) return;
           }}
           className="bg-blue-500 col-span-full hover:cursor-pointer text-white w-fit px-[1rem] mx-auto py-[0.5rem] rounded-[0.7rem]"
         >

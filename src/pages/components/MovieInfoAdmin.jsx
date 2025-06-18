@@ -2,15 +2,23 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import MovieInfoSkeleton from "./MovieInfoSkeleton";
 import EditForm from "./EditForm";
+import { useUserContext } from "../../contexts/UserProvider";
 
 async function fetchMovieInfo(id, setMovie, setLoading) {
-  const res = await axios.get(`http://45.149.206.238:80/api/movies/${id}`);
-  setMovie(res.data);
+  const res = await axios.get(`http://ecnet.website/api/movies/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    withCredentials: true,
+  });
   setLoading(false);
+  if (!res.data.isAuthorized) return;
+  setMovie(res.data);
 }
 
 export default function MovieInfoAdmin({ id, setOpenInfo, deleteMovieUI }) {
   const [loading, setLoading] = useState(true);
+  const { token } = useUserContext();
   const [movie, setMovie] = useState({
     title: "",
     description: "",
@@ -35,7 +43,13 @@ export default function MovieInfoAdmin({ id, setOpenInfo, deleteMovieUI }) {
     }
   }, []);
   async function deleteMovie() {
-    const res = await axios.delete(`http://45.149.206.238:80/api/movies/${id}`);
+    const res = await axios.delete(`http://ecnet.website/api/movies/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+    if (!res.data.isAuthorized) return;
     if (res.data.status == 204) {
       setOpenInfo(false);
       deleteMovieUI(id);

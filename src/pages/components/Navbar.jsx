@@ -6,6 +6,7 @@ import { debounce } from "lodash";
 import MovieInfo from "./MovieInfo";
 import { useNavigate } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
+import { useUserContext } from "../../contexts/UserProvider";
 export default function Navbar() {
   const [showInput, setShowInput] = useState(false);
   const [movies, setMovies] = useState([]);
@@ -16,6 +17,7 @@ export default function Navbar() {
   const [openInfo, setOpenInfo] = useState(false);
   const [openId, setOpenId] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+  const { token } = useUserContext();
   const navigate = useNavigate();
   const path = window.location.pathname;
   useEffect(() => {
@@ -34,9 +36,16 @@ export default function Navbar() {
     setFire(true);
     setLoading(true);
     const res = await axios.get(
-      `http://45.149.206.238:80/api/movies?title=${query}`
+      `http://ecnet.website/api/movies?title=${query}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
     );
     setLoading(false);
+    if (!res.data.isAuthorized) return;
     setMovies(res.data.movies);
     console.log(res.data);
   }, 500);

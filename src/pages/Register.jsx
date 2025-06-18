@@ -22,7 +22,7 @@ function formReducer(state, action) {
 }
 async function register(name, email, password, cb) {
   const res = await axios.post(
-    "http://45.149.206.238:80/api/register",
+    "http://ecnet.website/api/register",
     { name, email, password },
     {
       headers: { "Content-Type": "application/json" },
@@ -72,7 +72,7 @@ export default function Register() {
       <div className="relative w-full">
         <div className="absolute min-h-screen inset-0 overflow-hidden">
           <img
-            src="http://45.149.206.238:80/images/login_background.webp"
+            src="http://ecnet.website/images/login_background.webp"
             alt="Background"
             className="w-full h-full object-cover object-center"
           />

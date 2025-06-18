@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import React from "react";
 import MovieInfoAdmin from "./MovieInfoAdmin";
 import { debounce } from "lodash";
+import { useUserContext } from "../../contexts/UserProvider";
 
 function MoviesContainer({
   selectedGenre,
@@ -16,6 +17,7 @@ function MoviesContainer({
 }) {
   const [openInfo, setOpenInfo] = useState(false);
   const [openId, setOpenId] = useState(null);
+  const { token } = useUserContext();
   const scrollRef = useRef(null);
   const lastRef = useRef(null);
   const deleteMovieUI = useCallback((id) => {
@@ -30,9 +32,16 @@ function MoviesContainer({
           observer.unobserve(lastRef.current);
           setLoading(true);
           const res = await axios.get(
-            `http://45.149.206.238:80/api/movies?part=${nextPart}&genre=${selectedGenre}&title=${query}`
+            `http://ecnet.website/api/movies?part=${nextPart}&genre=${selectedGenre}&title=${query}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              withCredentials: true,
+            }
           );
           setLoading(false);
+          if (!res.data.isAuthorized) return;
           setNextPart(res.data.next_part);
           setMovies((prev) => [...prev, ...res.data.movies]);
         }
