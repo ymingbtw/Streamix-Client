@@ -5,6 +5,7 @@ import ProtectedRoute from "./pages/components/ProtectedRoute";
 import Navbar from "./pages/components/Navbar.jsx";
 import { AliveScope } from "react-activation";
 import { AnimatePresence } from "framer-motion";
+import Layout from "./pages/components/Layout";
 
 const Register = React.lazy(() => import("./pages/Register"));
 const Signin = React.lazy(() => import("./pages/Signin"));
@@ -18,35 +19,30 @@ const BrowseWrapper = React.lazy(() =>
 );
 
 export default function App() {
-  const location = useLocation();
-  const hideNavbarRoutes = ["/signin", "/register", "/dashboard/m", "/profile"];
-  const showNavbar = !hideNavbarRoutes.includes(location.pathname);
-  console.log("app rendered");
   return (
     <BrowserRouter>
       <AliveScope>
-        {showNavbar && <Navbar />}
         <Suspense fallback={null}>
           <AnimatePresence mode="wait">
             <Routes>
               <Route
                 path="/"
                 element={
-                  <>
+                  <Layout>
                     <ProtectedRoute>
                       <HomeWrapper />
                     </ProtectedRoute>
-                  </>
+                  </Layout>
                 }
               />
               <Route
                 path="/browse"
                 element={
-                  <>
+                  <Layout>
                     <ProtectedRoute>
                       <BrowseWrapper />
                     </ProtectedRoute>
-                  </>
+                  </Layout>
                 }
               />
               <Route
