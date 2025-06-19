@@ -165,7 +165,9 @@ const HlsPlayer = ({ src }) => {
         style={{ width: "90vw", height: "90vh", backgroundColor: "black" }}
         preload="auto"
         tabIndex={-1}
-        controls={false} // Remove default controls, including fullscreen
+        controls={false} // No default controls, including fullscreen
+        disablePictureInPicture
+        controlsList="nodownload nofullscreen noremoteplayback"
         onFullscreenChange={(e) => {
           e.preventDefault();
           return false;
