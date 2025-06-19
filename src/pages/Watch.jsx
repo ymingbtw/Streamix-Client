@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
-import Hls from "./components/HlsPlayer";
+import HlsPlayer from "./components/HlsPlayer";
 import { useUserContext } from "../contexts/UserProvider";
 
 const Watch = () => {
