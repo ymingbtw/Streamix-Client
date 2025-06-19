@@ -21,7 +21,7 @@ export default function Hero() {
       });
       setLoading(false);
       if (!res.data.isAuthorized) return;
-      setMovies(res.data);
+      setMovies(res.data.movies);
     }
     fetchHero();
   }, []);
