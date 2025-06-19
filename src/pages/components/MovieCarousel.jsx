@@ -27,7 +27,7 @@ const MovieCarousel = ({ genre, setOpenId, setOpenInfo }) => {
   useEffect(() => {
     if (!genre) return;
     axios
-      .get(`http://ecnet.website/api/movies?genre=${genre}`, {
+      .get(`http://api.ecnet.website/api/movies?genre=${genre}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

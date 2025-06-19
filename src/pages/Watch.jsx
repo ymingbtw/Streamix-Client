@@ -17,7 +17,7 @@ const Watch = () => {
 
   useEffect(() => {
     axios
-      .get("http://ecnet.website/api/movies/" + id, {
+      .get("http://api.ecnet.website/api/movies/" + id, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

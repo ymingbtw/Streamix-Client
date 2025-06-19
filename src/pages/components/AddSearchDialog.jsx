@@ -14,7 +14,7 @@ export default function AddSearchDialog({ movieForm, setMovieForm }) {
     debounce(async (searchQuery) => {
       try {
         const res = await axios(
-          `http://ecnet.website/api/genres/q/${searchQuery}`,
+          `http://api.ecnet.website/api/genres/q/${searchQuery}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

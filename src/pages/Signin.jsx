@@ -17,7 +17,7 @@ function formReducer(state, action) {
 }
 async function signin(email, password, cb) {
   const res = await axios.post(
-    "http://ecnet.website/api/signin",
+    "http://api.ecnet.website/api/signin",
     { email, password },
     {
       headers: { "Content-Type": "application/json" },
@@ -61,7 +61,7 @@ export default function Signin() {
       <div className="relative w-full">
         <div className="absolute min-h-screen inset-0 overflow-hidden">
           <img
-            src="http://ecnet.website/images/login_background.webp"
+            src="http://api.ecnet.website/images/login_background.webp"
             alt="Background"
             className="w-full h-full object-cover object-center"
           />

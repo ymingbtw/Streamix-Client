@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children }) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function authenticate() {
-      const res = await axios.get("http://ecnet.website/api/authenticate", {
+      const res = await axios.get("http://api.ecnet.website/api/authenticate", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

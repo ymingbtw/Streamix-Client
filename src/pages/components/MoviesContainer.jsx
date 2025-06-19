@@ -32,7 +32,7 @@ function MoviesContainer({
           observer.unobserve(lastRef.current);
           setLoading(true);
           const res = await axios.get(
-            `http://ecnet.website/api/movies?part=${nextPart}&genre=${selectedGenre}&title=${query}`,
+            `http://api.ecnet.website/api/movies?part=${nextPart}&genre=${selectedGenre}&title=${query}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

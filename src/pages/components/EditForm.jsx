@@ -136,7 +136,7 @@ export default function EditForm({
         <button
           onClick={async () => {
             const res = await axios.put(
-              "http://ecnet.website/api/movies",
+              "http://api.ecnet.website/api/movies",
               {
                 ...movieForm,
                 genres: Object.keys(movieForm.genres),

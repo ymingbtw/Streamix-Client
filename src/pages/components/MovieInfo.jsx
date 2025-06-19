@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../contexts/UserProvider";
 
 async function fetchMovieInfo(id, setMovie, setLoading) {
-  const res = await axios.get(`http://ecnet.website/api/movies/${id}`, {
+  const res = await axios.get(`http://api.ecnet.website/api/movies/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
