@@ -17,7 +17,7 @@ export default function MovieForm({ setMovieForm, movieForm, setOpenNewForm }) {
       document.removeEventListener("mousedown", detectClick);
     };
   }, []);
-  console.log("MovieForm token:", token);
+
   return (
     <div
       ref={formDialog}
