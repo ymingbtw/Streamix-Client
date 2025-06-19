@@ -7,7 +7,7 @@ import MovieInfo from "./MovieInfo";
 import { useNavigate } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
 import { useUserContext } from "../../contexts/UserProvider";
-export default function Navbar() {
+function Navbar() {
   const [showInput, setShowInput] = useState(false);
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState("");
@@ -176,3 +176,4 @@ export default function Navbar() {
     </div>
   );
 }
+export default React.memo(Navbar);
