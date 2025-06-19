@@ -1,18 +1,6 @@
-import { Navigate } from "react-router-dom";
-import axios from "axios";
-
-import { useEffect, useState } from "react";
-import { useUserContext } from "../../contexts/UserProvider";
-
-export default function ProtectedRoute({ children }) {
-  const {
-    token,
-    isAuthenticated,
-    setToken,
-    setIsAuthenticated,
-    role,
-    setRole,
-  } = useUserContext();
+export default function Admin() {
+  const { token, isAuthenticated, setToken, setIsAuthenticate, role, setRole } =
+    useUserContext();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function authenticate() {
@@ -35,7 +23,7 @@ export default function ProtectedRoute({ children }) {
   if (loading) {
     return null;
   }
-  if (!isAuthenticated || role != "user" || role != "admin") {
+  if (!isAuthenticated || role != "admin") {
     return <Navigate to="/signin" replace />;
   }
   return children;

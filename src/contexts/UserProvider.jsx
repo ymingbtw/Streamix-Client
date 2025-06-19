@@ -1,17 +1,22 @@
 import { createContext, useContext, useState } from "react";
 import Cookies from "js-cookie";
 
-const UserContext = createContext({
-  token: Cookies.get("auth_token"),
-  authenticated: null,
-});
+const UserContext = createContext();
 
 export default function UserProvider({ children }) {
   const [token, setToken] = useState(Cookies.get("auth_token"));
+  const [role, setRole] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   return (
     <UserContext.Provider
-      value={{ token, setToken, isAuthenticated, setIsAuthenticated }}
+      value={{
+        token,
+        setToken,
+        isAuthenticated,
+        setIsAuthenticated,
+        role,
+        setRole,
+      }}
     >
       {children}
     </UserContext.Provider>
