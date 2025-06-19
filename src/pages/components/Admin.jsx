@@ -4,8 +4,14 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Admin() {
-  const { token, isAuthenticated, setToken, setIsAuthenticate, role, setRole } =
-    useUserContext();
+  const {
+    token,
+    isAuthenticated,
+    setToken,
+    setIsAuthenticated,
+    role,
+    setRole,
+  } = useUserContext();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function authenticate() {
