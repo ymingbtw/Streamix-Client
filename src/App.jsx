@@ -64,7 +64,14 @@ export default function App() {
               />
               <Route path="/register" element={<Register />} />
               <Route path="/signin" element={<Signin />} />
-              <Route path="/dashboard/m" element={<MovieDashboard />} />
+              <Route
+                path="/dashboard/m"
+                element={
+                  <Admin>
+                    <MovieDashboard />
+                  </Admin>
+                }
+              />
             </Routes>
           </AnimatePresence>
         </Suspense>
