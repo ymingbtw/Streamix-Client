@@ -55,7 +55,7 @@ export default function Hero() {
             {/* <h1 className="text-[2vw] font-extrabold leading-tight">
               {movie.title}
             </h1> */}
-            <p className="text-[clamp(0.25rem,2vw,2rem)] h-50% line-clamp-5 text-ellipsis text-white font-bold w-full">
+            <p className="text-[clamp(0.25rem,2vw,2rem)] h-50% line-clamp-3 text-white font-bold w-full">
               {movie.description}
             </p>
             <div className="flex text-black text-[clamp(0.5rem,3vw,2rem)] gap-1">
