@@ -5,7 +5,6 @@ import EditForm from "./EditForm";
 import { useUserContext } from "../../contexts/UserProvider";
 
 async function fetchMovieInfo(id, setMovie, setLoading) {
-  const { token } = useUserContext();
   const res = await axios.get(`https://api.ecnet.website/api/movies/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
