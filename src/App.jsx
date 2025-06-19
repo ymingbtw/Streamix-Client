@@ -12,6 +12,7 @@ const Profile = React.lazy(() => import("./pages/Profile"));
 const Watch = React.lazy(() => import("./pages/Watch"));
 const MovieDashboard = React.lazy(() => import("./pages/MovieDashboard"));
 const HomeWrapper = React.lazy(() => import("./pages/components/HomeWrapper"));
+const Admin = React.lazy(() => import("./pages/components/Admin"));
 const BrowseWrapper = React.lazy(() =>
   import("./pages/components/BrowseWrapper")
 );
