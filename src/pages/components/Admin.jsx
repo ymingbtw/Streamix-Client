@@ -3,7 +3,7 @@ import { useUserContext } from "../../contexts/UserProvider";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 
-export default function Admin() {
+export default function Admin({ children }) {
   const {
     token,
     isAuthenticated,
