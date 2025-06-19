@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import React from "react";
 import { useUserContext } from "../contexts/UserProvider";
 
 const HlsPlayer = React.lazy(() => import("./components/HlsPlayer"));
