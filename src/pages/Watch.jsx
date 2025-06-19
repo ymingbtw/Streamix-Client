@@ -1,10 +1,11 @@
 // Watch.jsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import HlsPlayer from "./components/HlsPlayer";
 import axios from "axios";
-import { AnimatePresence, motion } from "framer-motion";
 import { useUserContext } from "../contexts/UserProvider";
+
+const HlsPlayer = React.lazy(() => import("./components/HlsPlayer"));
+const { AnimatePresence, motion } = React.lazy(() => import("framer-motion"));
 
 const Watch = () => {
   const { id } = useParams();

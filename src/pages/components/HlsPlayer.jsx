@@ -1,6 +1,6 @@
 // HlsPlayerFullscreen.jsx
 import React, { useEffect, useRef, useState } from "react";
-import Hls from "hls.js";
+// import Hls from "hls.js"; // Remove static import
 import debounce from "lodash/debounce";
 
 const formatTime = (seconds) => {
@@ -28,31 +28,38 @@ const HlsPlayer = ({ src }) => {
     const video = videoRef.current;
     if (!video || !src) return;
 
-    let hls = new Hls({
-      maxBufferLength: 10,
-      maxBufferSize: 20_000_000,
-      backBufferLength: 5,
-    });
-    hls.loadSource(src);
-    hls.attachMedia(video);
-    hlsRef.current = hls;
+    let hls;
+    let isMounted = true;
+    (async () => {
+      const Hls = (await import("hls.js")).default;
+      if (!isMounted) return;
+      hls = new Hls({
+        maxBufferLength: 10,
+        maxBufferSize: 20_000_000,
+        backBufferLength: 5,
+      });
+      hls.loadSource(src);
+      hls.attachMedia(video);
+      hlsRef.current = hls;
 
-    const debouncedStartLoad = debounce(() => {
-      hls.startLoad();
-      hls.resumeBuffering();
-    }, 500);
+      const debouncedStartLoad = debounce(() => {
+        hls.startLoad();
+        hls.resumeBuffering();
+      }, 500);
 
-    const onSeeking = () => {
-      hls.stopLoad();
-      hls.pauseBuffering();
-      debouncedStartLoad();
-    };
-    video.addEventListener("seeking", onSeeking);
-    return () => {
-      if (hls) hls.destroy();
-      debouncedStartLoad.cancel();
-      video.removeEventListener("seeking", onSeeking);
-    };
+      const onSeeking = () => {
+        hls.stopLoad();
+        hls.pauseBuffering();
+        debouncedStartLoad();
+      };
+      video.addEventListener("seeking", onSeeking);
+      return () => {
+        if (hls) hls.destroy();
+        debouncedStartLoad.cancel();
+        video.removeEventListener("seeking", onSeeking);
+        isMounted = false;
+      };
+    })();
   }, [src]);
 
   useEffect(() => {
