@@ -167,7 +167,7 @@ const HlsPlayer = ({ src }) => {
         style={{
           width: "100%",
           height: "100%",
-          objectFit: "cover", // <-- fill and crop if needed
+          objectFit: "contain", // <-- fill and crop if needed
           backgroundColor: "black",
         }}
         preload="auto"
@@ -181,19 +181,22 @@ const HlsPlayer = ({ src }) => {
         <div
           style={{
             position: "absolute",
-            bottom: 40,
+            bottom: 16,
             left: "50%",
             transform: "translateX(-50%)",
-            width: "80vw",
+            width: "96vw",
+            maxWidth: 600,
+            minWidth: 180,
             background: "rgba(20,20,20,0.7)",
-            borderRadius: 16,
+            borderRadius: 12,
             display: "flex",
             alignItems: "center",
-            padding: "16px 24px",
+            padding: fullscreen ? "8px 8px" : "12px 18px",
             boxShadow: "0 2px 12px rgba(0,0,0,0.18)",
-            gap: 16,
+            gap: 8,
             zIndex: 1200,
-            transition: "opacity 0.3s",
+            transition: "opacity 0.3s, padding 0.3s, width 0.3s",
+            flexWrap: "wrap",
           }}
         >
           <button
@@ -233,7 +236,13 @@ const HlsPlayer = ({ src }) => {
             max={100}
             value={duration ? (current / duration) * 100 : 0}
             onChange={handleSeek}
-            style={{ flex: 1, accentColor: "#e50914", height: 4 }}
+            style={{
+              flex: 1,
+              accentColor: "#e50914",
+              height: 4,
+              minWidth: 40,
+              maxWidth: fullscreen ? 120 : 200,
+            }}
             aria-label="Seek"
           />
           <span
@@ -252,7 +261,11 @@ const HlsPlayer = ({ src }) => {
             step={0.01}
             value={volume}
             onChange={handleVolume}
-            style={{ width: 80, accentColor: "#e50914" }}
+            style={{
+              width: fullscreen ? 48 : 80,
+              accentColor: "#e50914",
+              minWidth: 32,
+            }}
             aria-label="Volume"
           />
           <button
