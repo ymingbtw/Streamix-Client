@@ -28,7 +28,8 @@ const Watch = () => {
         setUrl(res.data.video);
         setTimeout(() => setShow(true), 10); // trigger transition after mount
       });
-  }, [id]);
+  }, [id, token]);
+
   if (loading) {
     return null;
   }
@@ -55,22 +56,44 @@ const Watch = () => {
             opacity: { duration: 1.2 },
           }}
           style={{
-            width: "100vw",
-            height: "100vh",
             position: "fixed",
             top: 0,
             left: 0,
+            width: "100vw",
+            height: "100vh",
+            paddingTop: "env(safe-area-inset-top)",
+            paddingBottom: "env(safe-area-inset-bottom)",
+            paddingLeft: "env(safe-area-inset-left)",
+            paddingRight: "env(safe-area-inset-right)",
             background: "rgba(0,0,0,0.96)",
             zIndex: 1000,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
           }}
         >
-          <HlsPlayer src={url} />
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 960,
+              flex: "1 1 auto",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 8,
+              boxSizing: "border-box",
+            }}
+          >
+            <HlsPlayer src={url} />
+          </div>
+
           <button
             onClick={() => navigate("/")}
             style={{
               position: "fixed",
-              top: 24,
-              left: 24,
+              top: "calc(24px + env(safe-area-inset-top))",
+              left: "calc(24px + env(safe-area-inset-left))",
               zIndex: 1100,
               width: 48,
               height: 48,
@@ -83,6 +106,7 @@ const Watch = () => {
               boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
               cursor: "pointer",
               transition: "background 0.2s, box-shadow 0.2s",
+              touchAction: "manipulation",
             }}
             aria-label="Back"
             onMouseOver={(e) =>

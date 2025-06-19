@@ -17,7 +17,7 @@ const formatTime = (seconds) => {
 };
 
 const HlsPlayer = ({ src }) => {
-  const containerRef = useRef(null); // Fullscreen container wrapper
+  const containerRef = useRef(null);
   const videoRef = useRef(null);
   const hlsRef = useRef(null);
   const [playing, setPlaying] = useState(true);
@@ -156,6 +156,7 @@ const HlsPlayer = ({ src }) => {
         alignItems: "center",
         zIndex: 1000,
         flexDirection: "column",
+        overflow: "hidden", // prevent scrollbars if video overflows slightly
       }}
       onMouseMove={showAndHideControls}
       onClick={showAndHideControls}
@@ -163,13 +164,19 @@ const HlsPlayer = ({ src }) => {
       <video
         ref={videoRef}
         autoPlay
-        style={{ width: "90vw", height: "90vh", backgroundColor: "black" }}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover", // <-- fill and crop if needed
+          backgroundColor: "black",
+        }}
         preload="auto"
         tabIndex={-1}
         controls={false}
         disablePictureInPicture
         controlsList="nodownload nofullscreen noremoteplayback"
       />
+
       {showControls && (
         <div
           style={{
