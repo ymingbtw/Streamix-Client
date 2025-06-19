@@ -25,7 +25,7 @@ export default function Home() {
       });
       setLoading(false);
       if (!res.data.isAuthorized) return;
-      setGenres(res.data);
+      setGenres(res.data.genres);
     }
     initTopGenres();
   }, []);

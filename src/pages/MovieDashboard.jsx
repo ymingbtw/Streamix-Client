@@ -84,7 +84,7 @@ export default function MovieDashboard() {
         withCredentials: true,
       });
       if (!res.data.isAuthorized) return;
-      setGenres(res.data);
+      setGenres(res.data.genres);
     }
     async function initMovies() {
       setLoading(true);

@@ -18,7 +18,7 @@ export default function GenreDialog({ genre, setGenre }) {
       })
       .then((res) => {
         if (!res.data.isAuthorized) return;
-        setGenres(res.data);
+        setGenres(res.data.genres);
       })
       .catch((err) => console.error("Error fetching genres:", err));
   }, []);

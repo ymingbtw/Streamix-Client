@@ -23,7 +23,7 @@ export default function AddSearchDialog({ movieForm, setMovieForm }) {
           }
         );
         if (!res.data.isAuthorized) return;
-        setGenres(res.data);
+        setGenres(res.data.genres);
       } catch (err) {
         console.error("Error fetching genres:", err);
       } finally {
