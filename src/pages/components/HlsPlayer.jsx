@@ -166,6 +166,22 @@ const HlsPlayer = ({ src }) => {
         preload="auto"
         tabIndex={-1}
         controls={false} // Remove default controls, including fullscreen
+        onFullscreenChange={(e) => {
+          e.preventDefault();
+          return false;
+        }}
+        onWebkitFullscreenChange={(e) => {
+          e.preventDefault();
+          return false;
+        }}
+        onMozFullscreenChange={(e) => {
+          e.preventDefault();
+          return false;
+        }}
+        onMsFullscreenChange={(e) => {
+          e.preventDefault();
+          return false;
+        }}
       />
       {showControls && (
         <div
