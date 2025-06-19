@@ -4,13 +4,17 @@ import React, { useEffect, useRef, useState } from "react";
 import debounce from "lodash/debounce";
 
 const formatTime = (seconds) => {
-  const m = Math.floor(seconds / 60)
+  if (isNaN(seconds) || seconds === Infinity) return "00:00:00";
+  const h = Math.floor(seconds / 3600)
+    .toString()
+    .padStart(2, "0");
+  const m = Math.floor((seconds % 3600) / 60)
     .toString()
     .padStart(2, "0");
   const s = Math.floor(seconds % 60)
     .toString()
     .padStart(2, "0");
-  return `${m}:${s}`;
+  return `${h}:${m}:${s}`;
 };
 
 const HlsPlayer = ({ src }) => {
@@ -161,7 +165,7 @@ const HlsPlayer = ({ src }) => {
         style={{ width: "90vw", height: "90vh", backgroundColor: "black" }}
         preload="auto"
         tabIndex={-1}
-        controls={false}
+        controls={false} // Remove default controls, including fullscreen
       />
       {showControls && (
         <div
