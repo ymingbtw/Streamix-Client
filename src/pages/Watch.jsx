@@ -2,11 +2,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import React from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Hls from "./components/HlsPlayer";
 import { useUserContext } from "../contexts/UserProvider";
-
-const HlsPlayer = React.lazy(() => import("./components/HlsPlayer"));
-const { AnimatePresence, motion } = React.lazy(() => import("framer-motion"));
 
 const Watch = () => {
   const { id } = useParams();
