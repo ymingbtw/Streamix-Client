@@ -85,40 +85,6 @@ const HlsPlayer = ({ src }) => {
     };
   }, []);
 
-  const togglePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) video.play();
-    else video.pause();
-  };
-
-  const handleSeek = (e) => {
-    const video = videoRef.current;
-    if (!video) return;
-    const percent = e.target.value;
-    const newTime = (percent / 100) * duration;
-    video.currentTime = newTime;
-    setCurrent(newTime);
-  };
-
-  const handleVolume = (e) => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.volume = e.target.value;
-  };
-
-  const handleFullscreen = () => {
-    if (!fullscreen) {
-      if (containerRef.current?.requestFullscreen) {
-        containerRef.current.requestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
-    }
-  };
-
   return (
     <div
       ref={containerRef}
@@ -149,8 +115,6 @@ const HlsPlayer = ({ src }) => {
         preload="auto"
         tabIndex={-1}
         controls={true}
-        disablePictureInPicture
-        controlsList="nodownload nofullscreen noremoteplayback"
       />
     </div>
   );
