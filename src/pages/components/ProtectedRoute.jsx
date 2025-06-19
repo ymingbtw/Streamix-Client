@@ -9,7 +9,6 @@ export default function ProtectedRoute({ children }) {
   const { token, isAuthenticated, setToken, setIsAuthenticated } =
     useUserContext();
   const [loading, setLoading] = useState(true);
-  console.log(token);
   useEffect(() => {
     async function authenticate() {
       const res = await axios.get(
