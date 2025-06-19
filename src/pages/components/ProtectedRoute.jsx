@@ -35,8 +35,8 @@ export default function ProtectedRoute({ children }) {
   if (loading) {
     return null;
   }
-  if (!isAuthenticated || role != "user" || role != "admin") {
-    return <Navigate to="/signin" replace />;
+  if (isAuthenticated || role == "user" || role == "admin") {
+    return children;
   }
-  return children;
+  return <Navigate to="/signin" replace />;
 }
