@@ -7,6 +7,7 @@ export default function UserProvider({ children }) {
   const [token, setToken] = useState(Cookies.get("auth_token"));
   const [role, setRole] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  console.log("UserProvider token:", token);
   return (
     <UserContext.Provider
       value={{
