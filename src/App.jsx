@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "./pages/components/ProtectedRoute";
 import Navbar from "./pages/components/Navbar.jsx";
@@ -18,10 +18,14 @@ const BrowseWrapper = React.lazy(() =>
 );
 
 export default function App() {
+  const location = useLocation();
+  const hideNavbarRoutes = ["/signin", "/register", "/dashboard/m", "/profile"];
+  const showNavbar = !hideNavbarRoutes.includes(location.pathname);
   console.log("app rendered");
   return (
     <BrowserRouter>
       <AliveScope>
+        {showNavbar && <Navbar />}
         <Suspense fallback={null}>
           <AnimatePresence mode="wait">
             <Routes>
@@ -29,7 +33,6 @@ export default function App() {
                 path="/"
                 element={
                   <>
-                    <Navbar />
                     <ProtectedRoute>
                       <HomeWrapper />
                     </ProtectedRoute>
@@ -40,7 +43,6 @@ export default function App() {
                 path="/browse"
                 element={
                   <>
-                    <Navbar />
                     <ProtectedRoute>
                       <BrowseWrapper />
                     </ProtectedRoute>
