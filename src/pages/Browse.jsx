@@ -25,7 +25,7 @@ export default function Browse() {
           setLoading(true);
           axios
             .get(
-              `http://api.ecnet.website/api/movies?part=${nextPage}&genre=${genre}`,
+              `https://api.ecnet.website/api/movies?part=${nextPage}&genre=${genre}`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ export default function Browse() {
     setMovies([]);
     setLoading(true);
     axios
-      .get(`http://api.ecnet.website/api/movies?genre=${genre}`, {
+      .get(`https://api.ecnet.website/api/movies?genre=${genre}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -7,7 +7,9 @@ export default function useMovies() {
   const [nextPart, setNextpart] = useState(2);
   const [loading, setLoading] = useState(null);
   async function fetchMovies(part) {
-    const res = await axios.get(`http://api.ecnet.website/api/movies?part=${part}`);
+    const res = await axios.get(
+      `https://api.ecnet.website/api/movies?part=${part}`
+    );
 
     setPart(res.data.part);
     setNextpart(res.data.next_part);

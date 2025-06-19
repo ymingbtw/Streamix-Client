@@ -13,7 +13,7 @@ export default function Hero() {
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchHero() {
-      const res = await axios("http://api.ecnet.website/api/movies/hero", {
+      const res = await axios("https://api.ecnet.website/api/movies/hero", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

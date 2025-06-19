@@ -36,7 +36,7 @@ export default function Navbar() {
     setFire(true);
     setLoading(true);
     const res = await axios.get(
-      `http://api.ecnet.website/api/movies?title=${query}`,
+      `https://api.ecnet.website/api/movies?title=${query}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

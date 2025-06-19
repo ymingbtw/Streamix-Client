@@ -11,12 +11,15 @@ export default function ProtectedRoute({ children }) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function authenticate() {
-      const res = await axios.get("http://api.ecnet.website/api/authenticate", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "https://api.ecnet.website/api/authenticate",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
       console.log(res.data);
       setIsAuthenticated(res.data.isAuthenticated);
       setToken(res.data.token);
