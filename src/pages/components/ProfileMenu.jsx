@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ProfileMenu() {
   const [open, setOpen] = useState(false);
-  const { token, setIsAuthenticated, setToken } = useUserContext();
+  const { token, setIsAuthenticated, setToken, setRole } = useUserContext();
   const navigate = useNavigate();
   const menuRef = useRef(null);
 
@@ -34,6 +34,7 @@ export default function ProfileMenu() {
       }
     );
     if (res.status === 200) {
+      setRole(null);
       setIsAuthenticated(false);
       setToken(null);
     }
@@ -72,7 +73,7 @@ export default function ProfileMenu() {
               <button
                 onClick={() => {
                   setOpen(false);
-                  onLogout(); // or use your auth logout logic
+                  onLogout();
                 }}
                 className="block hover:cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-800"
               >

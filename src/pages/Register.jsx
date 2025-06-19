@@ -72,7 +72,7 @@ export default function Register() {
       <div className="relative w-full">
         <div className="absolute min-h-screen inset-0 overflow-hidden">
           <img
-            src="https://api.ecnet.website/images/login_background.webp"
+            src="https://ecnet.website/images/login_background.webp"
             alt="Background"
             className="w-full h-full object-cover object-center"
           />
