@@ -4,7 +4,7 @@ import MovieInfoSkeleton from "./MovieInfoSkeleton";
 import EditForm from "./EditForm";
 import { useUserContext } from "../../contexts/UserProvider";
 
-async function fetchMovieInfo(id, setMovie, setLoading) {
+async function fetchMovieInfo(id, setMovie, setLoading, token) {
   const res = await axios.get(`https://api.ecnet.website/api/movies/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ export default function MovieInfoAdmin({ id, setOpenInfo, deleteMovieUI }) {
     }
   }
   useEffect(() => {
-    fetchMovieInfo(id, setMovie, setLoading);
+    fetchMovieInfo(id, setMovie, setLoading, token);
   }, [id]);
 
   useEffect(() => {
