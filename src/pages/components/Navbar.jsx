@@ -1,5 +1,6 @@
 import FuturisticLogo from "./FuturisticLogo";
 import { useState, useRef, useEffect } from "react";
+import React from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { debounce } from "lodash";
