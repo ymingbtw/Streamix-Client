@@ -1,10 +1,23 @@
+// HlsPlayerFullscreen.jsx
 import React, { useEffect, useRef, useState } from "react";
 import debounce from "lodash/debounce";
 
-// ... keep your formatTime and other logic unchanged
+const formatTime = (seconds) => {
+  if (isNaN(seconds) || seconds === Infinity) return "00:00:00";
+  const h = Math.floor(seconds / 3600)
+    .toString()
+    .padStart(2, "0");
+  const m = Math.floor((seconds % 3600) / 60)
+    .toString()
+    .padStart(2, "0");
+  const s = Math.floor(seconds % 60)
+    .toString()
+    .padStart(2, "0");
+  return `${h}:${m}:${s}`;
+};
 
 const HlsPlayer = ({ src }) => {
-  const containerRef = useRef(null); // Wrap video + controls container for fullscreen
+  const containerRef = useRef(null); // Fullscreen container wrapper
   const videoRef = useRef(null);
   const hlsRef = useRef(null);
   const [playing, setPlaying] = useState(true);
@@ -15,13 +28,70 @@ const HlsPlayer = ({ src }) => {
   const [showControls, setShowControls] = useState(true);
   const controlsTimeout = useRef(null);
 
-  // ... your HLS loading code unchanged
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !src) return;
 
-  // Fullscreen change listener to sync UI state
+    let hls;
+    let isMounted = true;
+    (async () => {
+      const Hls = (await import("hls.js")).default;
+      if (!isMounted) return;
+      hls = new Hls({
+        maxBufferLength: 10,
+        maxBufferSize: 20_000_000,
+        backBufferLength: 5,
+      });
+      hls.loadSource(src);
+      hls.attachMedia(video);
+      hlsRef.current = hls;
+
+      const debouncedStartLoad = debounce(() => {
+        hls.startLoad();
+        hls.resumeBuffering();
+      }, 500);
+
+      const onSeeking = () => {
+        hls.stopLoad();
+        hls.pauseBuffering();
+        debouncedStartLoad();
+      };
+      video.addEventListener("seeking", onSeeking);
+      return () => {
+        if (hls) hls.destroy();
+        debouncedStartLoad.cancel();
+        video.removeEventListener("seeking", onSeeking);
+        isMounted = false;
+      };
+    })();
+  }, [src]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const update = () => {
+      setCurrent(video.currentTime);
+      setDuration(video.duration || 0);
+      setPlaying(!video.paused);
+      setVolume(video.volume);
+    };
+    video.addEventListener("timeupdate", update);
+    video.addEventListener("play", update);
+    video.addEventListener("pause", update);
+    video.addEventListener("volumechange", update);
+    video.addEventListener("loadedmetadata", update);
+    return () => {
+      video.removeEventListener("timeupdate", update);
+      video.removeEventListener("play", update);
+      video.removeEventListener("pause", update);
+      video.removeEventListener("volumechange", update);
+      video.removeEventListener("loadedmetadata", update);
+    };
+  }, []);
+
   useEffect(() => {
     const handleFullscreenChange = () => {
       const fsElement = document.fullscreenElement;
-      // Check if the fullscreen element is the containerRef current
       setFullscreen(fsElement === containerRef.current);
     };
     document.addEventListener("fullscreenchange", handleFullscreenChange);
@@ -30,7 +100,28 @@ const HlsPlayer = ({ src }) => {
     };
   }, []);
 
-  // Toggle fullscreen on container div, not just video
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) video.play();
+    else video.pause();
+  };
+
+  const handleSeek = (e) => {
+    const video = videoRef.current;
+    if (!video) return;
+    const percent = e.target.value;
+    const newTime = (percent / 100) * duration;
+    video.currentTime = newTime;
+    setCurrent(newTime);
+  };
+
+  const handleVolume = (e) => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.volume = e.target.value;
+  };
+
   const handleFullscreen = () => {
     if (!fullscreen) {
       if (containerRef.current?.requestFullscreen) {
@@ -43,7 +134,12 @@ const HlsPlayer = ({ src }) => {
     }
   };
 
-  // ... rest of your handlers (togglePlay, handleSeek, handleVolume, showAndHideControls) remain the same
+  // Hide controls after 3 seconds inactivity
+  const showAndHideControls = () => {
+    setShowControls(true);
+    if (controlsTimeout.current) clearTimeout(controlsTimeout.current);
+    controlsTimeout.current = setTimeout(() => setShowControls(false), 3000);
+  };
 
   return (
     <div
@@ -59,7 +155,7 @@ const HlsPlayer = ({ src }) => {
         justifyContent: "center",
         alignItems: "center",
         zIndex: 1000,
-        flexDirection: "column", // keep controls below video
+        flexDirection: "column",
       }}
       onMouseMove={showAndHideControls}
       onClick={showAndHideControls}
@@ -93,7 +189,6 @@ const HlsPlayer = ({ src }) => {
             transition: "opacity 0.3s",
           }}
         >
-          {/* Play/Pause button */}
           <button
             onClick={togglePlay}
             style={{
@@ -116,8 +211,6 @@ const HlsPlayer = ({ src }) => {
               </svg>
             )}
           </button>
-
-          {/* Current Time */}
           <span
             style={{
               color: "#fff",
@@ -127,8 +220,6 @@ const HlsPlayer = ({ src }) => {
           >
             {formatTime(current)}
           </span>
-
-          {/* Seek Bar */}
           <input
             type="range"
             min={0}
@@ -138,8 +229,6 @@ const HlsPlayer = ({ src }) => {
             style={{ flex: 1, accentColor: "#e50914", height: 4 }}
             aria-label="Seek"
           />
-
-          {/* Duration */}
           <span
             style={{
               color: "#fff",
@@ -149,8 +238,6 @@ const HlsPlayer = ({ src }) => {
           >
             {formatTime(duration)}
           </span>
-
-          {/* Volume */}
           <input
             type="range"
             min={0}
@@ -161,8 +248,6 @@ const HlsPlayer = ({ src }) => {
             style={{ width: 80, accentColor: "#e50914" }}
             aria-label="Volume"
           />
-
-          {/* Fullscreen Toggle */}
           <button
             onClick={handleFullscreen}
             style={{
