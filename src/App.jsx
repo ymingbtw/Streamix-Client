@@ -27,19 +27,23 @@ export default function App() {
               <Route
                 path="/"
                 element={
-                  <ProtectedRoute>
+                  <>
                     <Navbar />
-                    <HomeWrapper />
-                  </ProtectedRoute>
+                    <ProtectedRoute>
+                      <HomeWrapper />
+                    </ProtectedRoute>
+                  </>
                 }
               />
               <Route
                 path="/browse"
                 element={
-                  <ProtectedRoute>
+                  <>
                     <Navbar />
-                    <BrowseWrapper />
-                  </ProtectedRoute>
+                    <ProtectedRoute>
+                      <BrowseWrapper />
+                    </ProtectedRoute>
+                  </>
                 }
               />
               <Route
