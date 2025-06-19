@@ -181,22 +181,19 @@ const HlsPlayer = ({ src }) => {
         <div
           style={{
             position: "absolute",
-            bottom: 16,
+            bottom: 40,
             left: "50%",
             transform: "translateX(-50%)",
-            width: "96vw",
-            maxWidth: 600,
-            minWidth: 180,
+            width: "80vw",
             background: "rgba(20,20,20,0.7)",
-            borderRadius: 12,
+            borderRadius: 16,
             display: "flex",
             alignItems: "center",
-            padding: fullscreen ? "8px 8px" : "12px 18px",
+            padding: "16px 24px",
             boxShadow: "0 2px 12px rgba(0,0,0,0.18)",
-            gap: 8,
+            gap: 16,
             zIndex: 1200,
-            transition: "opacity 0.3s, padding 0.3s, width 0.3s",
-            flexWrap: "wrap",
+            transition: "opacity 0.3s",
           }}
         >
           <button
@@ -236,13 +233,7 @@ const HlsPlayer = ({ src }) => {
             max={100}
             value={duration ? (current / duration) * 100 : 0}
             onChange={handleSeek}
-            style={{
-              flex: 1,
-              accentColor: "#e50914",
-              height: 4,
-              minWidth: 40,
-              maxWidth: fullscreen ? 120 : 200,
-            }}
+            style={{ flex: 1, accentColor: "#e50914", height: 4 }}
             aria-label="Seek"
           />
           <span
@@ -261,11 +252,7 @@ const HlsPlayer = ({ src }) => {
             step={0.01}
             value={volume}
             onChange={handleVolume}
-            style={{
-              width: fullscreen ? 48 : 80,
-              accentColor: "#e50914",
-              minWidth: 32,
-            }}
+            style={{ width: 80, accentColor: "#e50914" }}
             aria-label="Volume"
           />
           <button
