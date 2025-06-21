@@ -12,6 +12,7 @@ const MovieCarousel = ({ genre, setOpenId, setOpenInfo }) => {
   const [perPage, setPerpage] = useState(2);
   const [translateX, setTranslateX] = useState(0);
   const { token } = useUserContext();
+  const [isLoading, setIsLoading] = useState(true);
   const carouselRef = useRef(null);
 
   function onPageChange(page) {
@@ -36,6 +37,7 @@ const MovieCarousel = ({ genre, setOpenId, setOpenInfo }) => {
       .then((res) => {
         if (!res.data.isAuthorized) return;
         setMovies(res.data.movies);
+        setIsLoading(false);
       });
   }, [genre]);
   useEffect(() => {
@@ -91,6 +93,9 @@ const MovieCarousel = ({ genre, setOpenId, setOpenInfo }) => {
         className={`flex gap-2 transition-transform ease-in-out duration-700`}
         style={{ transform: `translateX(${translateX}%)` }}
       >
+        {isLoading && (
+          <div className="aspect-video grow-0 hover:cursor-pointer shrink-0 basis-[calc(1/2*100%-0.5rem)] translate-x-[0.25rem] min-[768px]:basis-[calc(1/3*100%-0.5rem)]"></div>
+        )}
         {movies.map((movie) => (
           <div
             onClick={() => {
