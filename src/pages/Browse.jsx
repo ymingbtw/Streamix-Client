@@ -90,7 +90,7 @@ export default function Browse() {
       {openInfo && <MovieInfo id={openId} setOpenInfo={setOpenInfo} />}
       <div className="absolute w-screen flex flex-col gap-[1rem] overflow-hidden p-[1.5rem] left-[0] top-[clamp(2rem,5vw,6rem)]">
         <GenreDialog setMovies={setMovies} genre={genre} setGenre={setGenre} />
-        <div className="grid grid-cols-2 h-[65vh] gap-2 min-[768px]:grid-cols-4 overflow-scroll hide-scrollbar">
+        <div className="grid grid-cols-2 mix-h-[65vh] gap-2 min-[768px]:grid-cols-4 overflow-scroll hide-scrollbar">
           {movies.map((m, idx) => {
             if (movies.length === idx + 1) {
               return (
