@@ -42,14 +42,14 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route
+              {/* <Route
                 path="/profile"
                 element={
                   <ProtectedRoute>
                     <Profile />
                   </ProtectedRoute>
                 }
-              />
+              /> */}
               <Route
                 path="/watch/:id"
                 element={

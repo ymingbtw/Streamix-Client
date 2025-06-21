@@ -57,7 +57,7 @@ export default function ProfileMenu() {
       {open && (
         <div className="absolute right-0 mt-2 w-48 bg-black border border-gray-700 rounded shadow-lg z-50">
           <ul className="py-1 text-sm text-white">
-            <li>
+            {/* <li>
               <button
                 onClick={() => {
                   setOpen(false);
@@ -68,7 +68,7 @@ export default function ProfileMenu() {
               >
                 Manage Profiles
               </button>
-            </li>
+            </li> */}
             <li>
               <button
                 onClick={() => {
