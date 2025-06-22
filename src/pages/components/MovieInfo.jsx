@@ -61,9 +61,8 @@ export default function MovieInfo({ id, setOpenInfo }) {
         className="flex m-[2rem] relative items-center justify-center"
       >
         <div className="bg-[#141414] relative overflow-scroll h-[75vh] hide-scrollbar rounded-2xl max-w-[750px]">
-          <div className="absolute translate-y-[1rem] inset-0 bg-[linear-gradient(0deg,_#181818,_transparent_50%)]"></div>
+          <div className="absolute w-full translate-y-[1rem] inset-0 bg-[linear-gradient(0deg,_#181818,_transparent_50%)]"></div>
           <img
-            loading="lazy"
             src={movie.backdrop}
             className="w-full"
             alt={movie.description}

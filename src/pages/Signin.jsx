@@ -59,13 +59,7 @@ export default function Signin() {
   return (
     <div className="min-h-screen bg-black">
       <div className="relative w-full">
-        <div className="absolute min-h-screen inset-0 overflow-hidden">
-          <img
-            src="https://ecnet.website/images/login_background.webp"
-            alt="Background"
-            className="w-full h-full object-cover object-center"
-          />
-        </div>
+        <div className="absolute min-h-screen inset-0 overflow-hidden bg-gradient-to-br from-purple-900 via-indigo-700 to-blue-500"></div>
 
         <div className="absolute min-h-screen inset-0 bg-black/60 z-10" />
         <div className="relative items-center justify-between z-20 flex">
@@ -136,8 +130,8 @@ export default function Signin() {
               type="submit"
               className={`w-full ${
                 !formValid
-                  ? "hover:cursor-not-allowed bg-red-900"
-                  : "bg-[var(--color-primary-start)] hover:bg-[var(--color-button-hover)] transition duration-300"
+                  ? "hover:cursor-not-allowed bg-gradient-to-r from-indigo-700/50 via-blue-500/50 to-purple-700/50"
+                  : "bg-gradient-to-r from-indigo-700 via-blue-500 to-purple-700 shadow-md hover:from-blue-600 hover:to-indigo-800 transition duration-300"
               } text-white py-3 px-6 rounded-lg font-bold select-none`}
             >
               {signing ? (
@@ -149,9 +143,7 @@ export default function Signin() {
               )}
             </button>
             <div className="flex gap-1">
-              <div className="text-[#ffffffb3] select-none">
-                New to Streamix?
-              </div>
+              <div className="text-[#ffffffb3] select-none">New here?</div>
               <div
                 onClick={() => navigate("/register")}
                 className="text-white hover:cursor-pointer font-bold"
