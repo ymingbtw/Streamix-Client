@@ -132,7 +132,7 @@ export default function MovieForm({ setMovieForm, movieForm, setOpenNewForm }) {
               genres: Object.keys(movieForm.genres),
             });
             const res = await axios.post(
-              "https://api.ecnet.website/api/movies",
+              "https://api.ecnet.space/api/movies",
               {
                 movieForm: {
                   ...movieForm,

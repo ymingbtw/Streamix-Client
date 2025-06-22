@@ -35,7 +35,7 @@ export default function MovieDashboard() {
     setLoading(true);
     setMovies([]);
     const res = await axios.get(
-      `https://api.ecnet.website/api/movies?genre=${selectedGenre}&title=${query}`,
+      `https://api.ecnet.space/api/movies?genre=${selectedGenre}&title=${query}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -60,7 +60,7 @@ export default function MovieDashboard() {
       setLoading(true);
       setMovies([]);
       const res = await axios.get(
-        `https://api.ecnet.website/api/movies?genre=${selectedGenre}&title=${query}`,
+        `https://api.ecnet.space/api/movies?genre=${selectedGenre}&title=${query}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ export default function MovieDashboard() {
   }, [selectedGenre]);
   useEffect(() => {
     async function fetchGenres() {
-      const res = await axios.get("https://api.ecnet.website/api/genres/main", {
+      const res = await axios.get("https://api.ecnet.space/api/genres/main", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -88,7 +88,7 @@ export default function MovieDashboard() {
     }
     async function initMovies() {
       setLoading(true);
-      const res = await axios.get(`https://api.ecnet.website/api/movies`, {
+      const res = await axios.get(`https://api.ecnet.space/api/movies`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

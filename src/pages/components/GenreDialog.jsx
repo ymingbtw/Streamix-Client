@@ -10,7 +10,7 @@ export default function GenreDialog({ genre, setGenre }) {
 
   useEffect(() => {
     axios
-      .get("https://api.ecnet.website/api/genres/main", {
+      .get("https://api.ecnet.space/api/genres/main", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

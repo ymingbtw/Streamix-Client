@@ -5,7 +5,7 @@ import EditForm from "./EditForm";
 import { useUserContext } from "../../contexts/UserProvider";
 
 async function fetchMovieInfo(id, setMovie, setLoading, token) {
-  const res = await axios.get(`https://api.ecnet.website/api/movies/${id}`, {
+  const res = await axios.get(`https://api.ecnet.space/api/movies/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -43,15 +43,12 @@ export default function MovieInfoAdmin({ id, setOpenInfo, deleteMovieUI }) {
     }
   }, []);
   async function deleteMovie() {
-    const res = await axios.delete(
-      `https://api.ecnet.website/api/movies/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      }
-    );
+    const res = await axios.delete(`https://api.ecnet.space/api/movies/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
     if (!res.data.isAuthorized) return;
     if (res.data.status == 204) {
       setOpenInfo(false);

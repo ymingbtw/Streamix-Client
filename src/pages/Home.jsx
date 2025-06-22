@@ -17,7 +17,7 @@ export default function Home() {
   console.log("home rendered");
   useEffect(() => {
     async function initTopGenres() {
-      const res = await axios("https://api.ecnet.website/api/genres/top", {
+      const res = await axios("https://api.ecnet.space/api/genres/top", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

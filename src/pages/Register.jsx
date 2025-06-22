@@ -22,7 +22,7 @@ function formReducer(state, action) {
 }
 async function register(name, email, password, cb) {
   const res = await axios.post(
-    "https://api.ecnet.website/api/register",
+    "https://api.ecnet.space/api/register",
     { name, email, password },
     {
       headers: { "Content-Type": "application/json" },
