@@ -15,15 +15,12 @@ export default function Admin({ children }) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function authenticate() {
-      const res = await axios.get(
-        "https://api.ecnet.website/api/authenticate",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get("https://api.ecnet.space/api/authenticate", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
       setRole(res.data.role);
       setIsAuthenticated(res.data.isAuthenticated);
       setToken(res.data.token);
